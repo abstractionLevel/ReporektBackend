@@ -111,15 +111,13 @@
 			<artifactId>java-jwt</artifactId>
 			<version>3.4.0</version>
 		</dependency>
-
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.8.0</version>
+				<version>1.9.0</version>
 				<configuration>
 					<workingDirectory>frontend</workingDirectory>
 					<installDirectory>target</installDirectory>
@@ -131,8 +129,8 @@
 							<goal>install-node-and-npm</goal>
 						</goals>
 						<configuration>
-							<nodeVersion>v8.9.4</nodeVersion>
-							<npmVersion>5.6.0</npmVersion>
+							<nodeVersion>v14.15.3</nodeVersion>
+							<npmVersion>7.5.4</npmVersion>
 						</configuration>
 					</execution>
 					<execution>
@@ -162,8 +160,8 @@
 						<phase>generate-resources</phase>
 						<configuration>
 							<target>
-								<copy todir="${project.build.directory}/classes/">
-									<fileset dir="${project.basedir}/reactjs/build"/>
+								<copy todir="${project.build.directory}/classes/public">
+									<fileset dir="${project.basedir}/frontend/build"/>
 								</copy>
 							</target>
 						</configuration>
@@ -176,8 +174,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+
 			</plugin>
 		</plugins>
-	</build>
+</build>
 
-</project>
+
+
+		</project>

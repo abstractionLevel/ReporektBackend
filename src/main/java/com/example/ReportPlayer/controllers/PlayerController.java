@@ -30,6 +30,14 @@ public class PlayerController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/hello")
+    public List<String> get() {
+        List<String> players = new ArrayList<>();
+        players.add("foo");
+        players.add("broo");
+        return players;
+    }
+
     @GetMapping("/top")
     public List<TopPlayerDto> getTopPlayer(@RequestParam("region") String region) {
         playerService = (PlayerService) context.getBean("player_service_"+ region);

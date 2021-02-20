@@ -17,7 +17,7 @@ const LoginPage = () => {
 					<FormLogin />
 					<div className="d-flex">
 						<div class="mr-auto p-2">
-							<Link to="register/">
+							<Link to="/register/">
 								<p className="">Sign Up</p>
 							</Link>
 						</div>

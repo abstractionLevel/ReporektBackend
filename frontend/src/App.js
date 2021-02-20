@@ -4,6 +4,7 @@ import HomePage from './pages/homePage/HomePage';
 import PlayerPage from './pages/playerPage/PlayerPage';
 import LoginPage from './pages/Login/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
+import HomeProva from './pages/homePage/HomeProva';
 import Message from './pages/Message/Message';
 import ReporterPage from './pages/Report/ReporterPage';
 import PrivateRoute from './utility/PrivateRoute';
@@ -61,7 +62,6 @@ const App = (props) => {
                        showStatisticsOption={false}
                        showMarketingOption={false}
                        showPreferencesOption={false}
-                       onAccept={() => console.log('onAccept')}
                        onAcceptPreferences={() => console.log('onAcceptPreferences')}
                        onAcceptStatistics={() => false}
                        onAcceptMarketing={() => false}
@@ -71,15 +71,15 @@ const App = (props) => {
                     />
                     <div className="image">
                         <Switch>
-                            <Route path='/' exact component={HomePage} />
-                            <Route path='/player/:username' component={PlayerPage} />
-                            <Route path='/forgotPassword/:token' component={PasswordForgotPage} />
-                            <Route path='/emailForgotPassword' component={EmailForgotPasswordPage} />
-                            <Route path='/profile' component={UserProfile} />
-                            <LoggedRouter exact path="/login" component={LoginPage} />
+                            <Route exact path='/'  component={HomePage} />
                             <Route exact path="/register" component={RegisterPage} />
+                            <PrivateRoute exact path='/report' component={ReporterPage} />
+                            <LoggedRouter  exact path="/login" component={LoginPage} />
+                            <Route exact path='/emailForgotPassword' component={EmailForgotPasswordPage} />
                             <Route exact path="/message" component={Message} />
-                            <PrivateRoute path='/report' component={ReporterPage} />
+                            <Route exact path='/player/:username' component={PlayerPage} />
+                            <Route exact path='/forgotPassword/:token' component={PasswordForgotPage} />
+                            <Route exact path='/profile' component={UserProfile} />
                         </Switch>
                     </div>
                 </div>) : (<p></p>)

@@ -91,6 +91,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/**/*.js"
                 ).permitAll()
                 .antMatchers(
+                        "/",
+                        "/register",
+                        "/report",
+                        "/login",
+                        "/emailForgotPassword",
+                        "/player/{username}",
+                        "/forgotPassword/{token}",
                         "/api/v1/registration/",
                         "/api/v1/authentication/",
                         "/api/v1/users/username/{username}",
@@ -104,7 +111,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/api/v1/users/accounts/email/email_token",
                         "/api/v1/users/accounts/update_forgot_password",
                         "/api/v1/reports/last",
-                        "/api/v1/reportTypeRegion/all"
+                        "/api/v1/reportTypeRegion/all",
+                        "/api/v1/players/hello",
+                        "/player/{username}"
                 ).permitAll()
                 .anyRequest().authenticated();
         // Filtro Custom JWT

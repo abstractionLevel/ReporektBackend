@@ -57,7 +57,7 @@ const RegisterPage = (props) => {
         AuthService.register(username, email, password, confirmPassword).then(
             (response) => {
                 props.history.push({
-                    pathname: '/message',
+                    pathname: 'message',
                     state: {
                         successful: true,
                         message: "A verification link has been sent your email: " + email
@@ -74,7 +74,7 @@ const RegisterPage = (props) => {
                     error.toString();
 
                 props.history.push({
-                    pathname: '/message',
+                    pathname: 'message',
                     state: {
                         successful: false,
                         message: resMessage
@@ -133,7 +133,7 @@ const RegisterPage = (props) => {
                         <input
                             name="password"
                             className="form-control mb-2 "
-                            type="text"
+                            type="password"
                             placeholder="password"
                             ref={register({
                                 required: "You must specify a password",
@@ -149,7 +149,7 @@ const RegisterPage = (props) => {
                             name="confirmPassword"
                             className="form-control mb-2"
                             placeholder="confirm password"
-                            type="text"
+                            type="password"
                             ref={register({
                                 validate: value =>
                                     value === passwordWatched.current || "The passwords do not match"

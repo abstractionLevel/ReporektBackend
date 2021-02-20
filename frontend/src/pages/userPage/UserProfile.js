@@ -17,7 +17,7 @@ const UserProfile = () => {
             <Row className="justify-content-md-center">
                 <Col className="col-lg-4">
                     <h5 className="mt-5">Server</h5>
-                    <input className="form-control " type="text " disabled  value={regionName} />
+                    <input className="form-control " type="password " disabled  value={regionName} />
                     <Button className="form-control mb-5 mt-1 " onClick={handleRemoveRegion}>Change Region</Button>
                     <UpdatePassword/>
                 </Col>

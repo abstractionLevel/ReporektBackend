@@ -58,7 +58,7 @@ const MyNavBar = (props) => {
     };
 
     const onClickSearchPlayer = () => {
-        const url = encodeURI('/player/' + searchPlayer)
+        const url = encodeURI('player/' + searchPlayer)
         setShowSearchPlayer(false)
         setSearchPlayer("")
         history.push(url);
@@ -148,20 +148,20 @@ const MyNavBar = (props) => {
                     <Button variant="outline-success " onClick={onClickSearchPlayer} >Search</Button>
                 </Form>
                 <Nav className="pl-2">
-                    <Nav.Link className="mr-3 mt-2 " href={"/report"}> Report </Nav.Link>
+                    <Nav.Link className="mr-3 mt-2 " href={"/#/report"}> Report </Nav.Link>
                     {isUser ? (<div><div className="row d-none d-lg-block">
                         <Dropdown drop="left" id='dropdown-button-drop-left'>
                             <Dropdown.Toggle as={CustomToggleSettings} >
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
-                                <Dropdown.Item href="/profile">Profile</Dropdown.Item>
+                                <Dropdown.Item href="/#/profile">Profile</Dropdown.Item>
                                 <Dropdown.Item href="/" onClick={logOut}>Logout</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
                         <div className="d-none d-sm-block d-md-none d-block d-sm-none">
                             <div>
-                                <a href="/profile">Profile</a>
+                                <a href="/#/profile">Profile</a>
                             </div>
                             <div>
                                 <a href="/" onClick={logOut}>Logout</a>
@@ -174,17 +174,17 @@ const MyNavBar = (props) => {
                                         <Dropdown.Toggle as={CustomToggleProfile} >
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item href="/register">Sign Up</Dropdown.Item>
-                                            <Dropdown.Item href="/login">Login</Dropdown.Item>
+                                            <Dropdown.Item href="/#/register">Sign Up</Dropdown.Item>
+                                            <Dropdown.Item href="/#/login">Login</Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
                                 <div className=" d-none d-sm-block d-md-none d-block d-sm-none">
                                     <div>
-                                        <a href="/register">Sign Up</a>
+                                        <a href="/#/register">Sign Up</a>
                                     </div>
                                 <div>
-                                    <a href="/login">Login</a>
+                                    <a href="/#/login">Login</a>
                                 </div>
                                 </div>
                             </div>

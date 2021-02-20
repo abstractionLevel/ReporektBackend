@@ -41,7 +41,7 @@ const FormLogin = (props) => {
                 />
                 {errors.username && <p>{errors.username.message}</p>}
                 <input
-                    type="text"
+                    type="password"
                     placeholder="password"
                     className="form-control mt-4 mb-4"
                     name="password"
