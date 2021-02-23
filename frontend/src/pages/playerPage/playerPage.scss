@@ -1,0 +1,35 @@
+
+.container-fluid {
+
+    .col-card-report {
+        margin-right: 80px;
+    }
+    .username {
+        color: #FFA500!important;
+        font-size: 40px;
+        font-family: 'lato-bold';
+
+    }
+
+    .report-type-players {
+        margin-top: 40px;
+        margin-left: 0px;
+        padding: 0px;
+    }
+
+    .img-top {
+        margin-bottom: -10px;
+        width: 300px;
+        height: 70px;
+        opacity: 0.7;
+        background-repeat:no-repeat;
+        img {
+            position: relative;
+            left: 80px;
+        }
+    }
+
+    .comment {
+        margin: auto;
+    }
+}

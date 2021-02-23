@@ -81,11 +81,15 @@ public class UserController {
     @PostMapping(path = "/accounts/email/email_token")
     public ResponseEntity sendEmailResetPasswordConfirmationToken(HttpServletRequest request, @Valid @RequestBody final EmailDto emailDto) {
         final User user = userService.findByEmail(emailDto.getEmail());
-        final VerificationToken verificationToken = verificationTokenService.save(user);
-        final String appUrl =  request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-        final Email email = constructResetTokenEmail(appUrl,request.getLocale(),verificationToken.getConfirmationToken(),user);
-        emailSenderService.send(email);
-        return  ResponseEntity.ok().build();
+        if(user!=null) {
+            final VerificationToken verificationToken = verificationTokenService.save(user);
+            final String appUrl =  request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+            final Email email = constructResetTokenEmail(appUrl,request.getLocale(),verificationToken.getConfirmationToken(),user);
+            emailSenderService.send(email);
+            return  ResponseEntity.ok().build();
+        }
+        return ResponseEntity.noContent().build();
+
     }
 
     @PostMapping(path = "/accounts/update_forgot_password")

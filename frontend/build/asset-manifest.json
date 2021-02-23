@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.90549ac4.chunk.css",
+    "main.js": "/static/js/main.c748497f.chunk.js",
+    "main.js.map": "/static/js/main.c748497f.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.49925162.js",
+    "runtime-main.js.map": "/static/js/runtime-main.49925162.js.map",
+    "static/css/2.ff645aaf.chunk.css": "/static/css/2.ff645aaf.chunk.css",
+    "static/js/2.09db867d.chunk.js": "/static/js/2.09db867d.chunk.js",
+    "static/js/2.09db867d.chunk.js.map": "/static/js/2.09db867d.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.38f6e4fab63b1745417e33bde90a5aaa.js": "/precache-manifest.38f6e4fab63b1745417e33bde90a5aaa.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.ff645aaf.chunk.css.map": "/static/css/2.ff645aaf.chunk.css.map",
+    "static/css/main.90549ac4.chunk.css.map": "/static/css/main.90549ac4.chunk.css.map",
+    "static/js/2.09db867d.chunk.js.LICENSE.txt": "/static/js/2.09db867d.chunk.js.LICENSE.txt",
+    "static/media/default.scss": "/static/media/Retro-Gaming.4c19fc87.ttf",
+    "static/media/search2.png": "/static/media/search2.59733f59.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.49925162.js",
+    "static/css/2.ff645aaf.chunk.css",
+    "static/js/2.09db867d.chunk.js",
+    "static/css/main.90549ac4.chunk.css",
+    "static/js/main.c748497f.chunk.js"
+  ]
+}

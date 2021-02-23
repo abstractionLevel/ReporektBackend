@@ -26,7 +26,7 @@ public class TextEmailSenderServiceImpl implements EmailSenderService{
     public void send(Email email) {
         try {
             System.out.println("********************* SLEEPING NOW FOR TESTING PURPOSE **********************");
-            Thread.sleep(60000);
+            Thread.sleep(10000);
             message.setTo(email.getTo());
             message.setSubject(email.getSubject());
             message.setText(email.getContent());

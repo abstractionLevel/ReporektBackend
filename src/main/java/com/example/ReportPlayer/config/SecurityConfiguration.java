@@ -82,9 +82,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers(
-                        //HttpMethod.GET,
-
-                        "/*.html",
+                        //HttpMethod.GET,                        "/*.html",
                         "/favicon.ico",
                         "/**/*.html",
                         "/**/*.css",
