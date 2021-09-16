@@ -1,1 +1,0 @@
-export const serverProxy = "http://leagueofreport-env-1.eba-3zwxpmvk.us-east-2.elasticbeanstalk.com"

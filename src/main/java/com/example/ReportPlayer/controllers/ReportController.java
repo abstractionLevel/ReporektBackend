@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = { "https://reporekt.com","https://www.reporekt.com","http://localhost:3000"}, maxAge = 3600)
 @RequestMapping("/api/v1/reports")
 public class ReportController {
 
@@ -47,10 +48,17 @@ public class ReportController {
     public ResponseEntity<?> save(@Valid @RequestBody final ReportDto reportDto,@RequestParam("region") String region) {
         final CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final User user = userService.findByUsername(userDetails.getUsername());
+        if(user==null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        if(!user.isAccountNonLocked()) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         reportService = (ReportService) context.getBean("report_service_"+region);
         reportDto.setRegion(region);
         reportDto.setUser(user);
         if(reportService.createReport(reportDto) != null) {
+            System.out.println("made report in " + region + " by " + user.getUsername() + " to " + reportDto.getNickname());
             return  ResponseEntity.ok().build();
         }
         return  ResponseEntity.noContent().build();

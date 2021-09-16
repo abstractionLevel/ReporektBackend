@@ -22,17 +22,5 @@ public class EmailSenderServiceIT {
     @Autowired
     private TextEmailSenderServiceImpl textEmailSenderServiceImpl;
 
-    @Test
-    public void shouldSendSingleMail() throws Exception {
-        Email mail = new Email();
-        mail.setFrom("no-reply@memorynotfound.com");
-        mail.setTo("deluciaugo@gmail.com");
-        mail.setSubject("Spring Mail Integration Testing with JUnit and GreenMail Example");
-        mail.setContent("We show how to write Integration Tests using Spring and GreenMail.");
-
-        textEmailSenderServiceImpl.send(mail);
-
-
-    }
-
+  
 }

@@ -1,11 +1,17 @@
 package com.example.ReportPlayer.utils.pojo;
 
+import java.util.List;
+import java.util.Map;
+
 public class Email {
 
     private String from;
     private String to;
     private String subject;
     private String content;
+    private List<Object> attachments;
+    private Map<String, Object> props;
+
 
     public Email() {}
 
@@ -49,5 +55,20 @@ public class Email {
         this.content = content;
     }
 
-    
+
+    public List<Object> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Object> attachments) {
+        this.attachments = attachments;
+    }
+
+    public Map<String, Object> getProps() {
+        return props;
+    }
+
+    public void setProps(Map<String, Object> props) {
+        this.props = props;
+    }
 }

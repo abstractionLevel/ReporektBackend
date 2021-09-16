@@ -58,47 +58,6 @@ public class AccountControllerTest {
     @MockBean
     private VerifyToken verifyToken;
 
-    @Test
-    public void email_ShouldSendTokenViaEmail() throws Exception {
-        //arrange
-        final EmailDto emailDto = EmailDtoBuilder.newBuilder().email("Apollo2@gmail.com").build();
-        final User user = UserBuilder.newBuilder().username("Apollo").
-                password("Apollo1010").confirmPassword("Apollo1010").email("apollo@gmail.com").isActive(false).build();
-        final VerificationToken verificationToken = VerificationTokenBuilder.newBuilder().region(Server.Region.EUW).user(user).build();
-        //act
-        when(userService.findByEmail(anyString())).thenReturn(user);
-        when(verificationTokenService.save(any(User.class))).thenReturn(verificationToken);
-        doNothing().when(emailSenderService).send(any(Email.class));
-        mockMvc.perform(put("/api/v1/accounts/email")
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(emailDto)))
-                .andExpect(status().isOk())
-                .andDo(print());
-        //assert
-        verify(userService,times(1)).findByEmail(anyString());
-        verify(verificationTokenService,times(1)).save(any(User.class));
-        verify(emailSenderService,times(1)).send(any(Email.class));
-
-    }
-
-    @Test
-    public void email_ShouldThrowUserNotFoundException() throws Exception {
-        //arrange
-        final EmailDto emailDto = EmailDtoBuilder.newBuilder().email("Apollo2@gmail.com").build();
-        when(userService.findByEmail(anyString())).thenThrow(UserNotFoundException.class);
-        //act
-        mockMvc.perform(put("/api/v1/accounts/email")
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(emailDto)))
-                .andExpect(status().isNotFound())
-                .andDo(print());
-        //assert
-        verify(userService,times(1)).findByEmail(anyString());
-        verify(verificationTokenService,times(0)).save(any(User.class));
-        verify(emailSenderService,times(0)).send(any(Email.class));
-    }
 
     @Test
     public void update_ShouldSavePassword() throws Exception {

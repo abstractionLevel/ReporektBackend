@@ -2,6 +2,7 @@ package com.example.ReportPlayer.controllers;
 
 
 import com.example.ReportPlayer.models.user.User;
+import com.example.ReportPlayer.services.captcha.CaptchaValidator;
 import com.example.ReportPlayer.services.user.UserService;
 import com.example.ReportPlayer.utils.pojo.Email;
 import com.example.ReportPlayer.models.token.VerificationToken;
@@ -16,12 +17,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = { "https://reporekt.com","https://www.reporekt.com","http://localhost:3000","http://localhost:8080"}, maxAge = 3600)
 @RequestMapping("/api/v1/registration/")
-@CrossOrigin
 public class RegistrationController {
 
     @Autowired
@@ -39,48 +44,69 @@ public class RegistrationController {
     @Autowired
     private VerifyToken verifyToken;
 
+    @Autowired
+    private CaptchaValidator captchaValidator;
+
+
+
+    @RequestMapping("/provaTemplate")
+    public ModelAndView welcome(ModelAndView modelAndView) {
+        modelAndView.setViewName("password_updated");
+        return modelAndView;
+    }
 
 
     @PostMapping()
-    public ResponseEntity saveUser(@Valid @RequestBody final UserDto userDto, HttpServletRequest request) {
+    public ResponseEntity saveUser(@Valid @RequestBody final UserDto userDto, HttpServletRequest request) throws IOException, MessagingException {
+        Boolean isValidCaptcha = captchaValidator.validateCaptcha(userDto.getCaptcha());
+        if(!isValidCaptcha) {
+            System.out.println("Recaptcha not valid");
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
         final User user = userService.save(userDto);
         final VerificationToken verificationToken = verificationTokenService.save(user);
-        final Email email = constructRegisterEmailToken(user,verificationToken,request.getLocalAddr());
-        senderService.send(email);
+        final Email email = constructEmailActivateAccount(user,verificationToken);
+        senderService.send(email,"confirm_account");
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
 
 
     @GetMapping()
-    public ModelAndView activationAccount(final HttpServletRequest request, @RequestParam("token") final String token ,ModelAndView modelAndView) {
+    public ResponseEntity activationAccount(@RequestParam("token") final String token) {
         final VerificationToken verificationToken = verificationTokenService.findTokenByConfirmationToken(token);
         String tokenResult = verifyToken.verify(verificationToken);
         if(tokenResult.equals("valid")) {
-            modelAndView.setViewName("verify_success");
+            System.out.println("Activation account for:" + verificationToken.getUser().getUsername() + " is valid ");
             userService.activateUser(verificationToken.getUser());
             verificationTokenService.deleteTokenByToken(verificationToken);
-            return modelAndView;
+            return ResponseEntity.ok().build();
         }
-        userService.delete(verificationToken.getUser());
-        return modelAndView;
+        if(tokenResult.equals("expired")) {
+            System.out.println("token expired for " + verificationToken.getUser().getUsername());
+            verificationTokenService.deleteTokenByToken(verificationToken);
+            userService.delete(verificationToken.getUser());
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+        return  new ResponseEntity(HttpStatus.NOT_FOUND);
     }
-
-
-
 
 
     // NON-API
 
-    private Email constructRegisterEmailToken(final User user, final VerificationToken token,String request) {
-        Email email = new Email();
-        email.setTo(user.getEmail());
-        email.setSubject("Registration Confirmation");
-        email.setContent("To confirm your account, please click here : "
-                + request+":8080/api/v1/registration/?token=" +token.getConfirmationToken());
-        return email;
+    private Email constructEmailActivateAccount(final User user, final VerificationToken token) {
+        Email mail = new Email();
+        mail.setTo(user.getEmail());
+        mail.setSubject("Registration Confirmation");
 
+        Map model = new HashMap();
+        model.put("name", user.getUsername());
+        model.put("token", "https://www.reporekt.com/activate-account/"+token.getConfirmationToken());
+        model.put("contactUsUrl","reporekt.com/#/help-center");
+        mail.setProps(model);
+        return mail;
     }
+
 
 
 

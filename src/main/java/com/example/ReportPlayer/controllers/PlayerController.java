@@ -13,13 +13,15 @@ import com.example.ReportPlayer.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = { "https://reporekt.com","https://www.reporekt.com","http://localhost:3000"}, maxAge = 3600)
+
 @RequestMapping("/api/v1/players")
 public class PlayerController {
 
@@ -67,7 +69,6 @@ public class PlayerController {
         }
         return playerList;
     }
-
     @GetMapping("/reportsType")
     public List<ReportTypeDto> getReportsTypeOfPlayer(@RequestParam("username") String  username,@RequestParam("region") String region) {
         reportTypeService = (ReportTypeService) context.getBean("report_type_service_"+region);
@@ -88,7 +89,7 @@ public class PlayerController {
         if(player==null)
             return null;
         PlayerDto playerDto = new PlayerDto(player.getNickname());
-
+        playerDto.setReportCount(player.getReportCount());
         return playerDto;
 
     }

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = { "https://reporekt.com","https://www.reporekt.com","http://localhost:3000"}, maxAge = 3600)
 @RequestMapping("/api/v1/reportTypeRegion/")
-@CrossOrigin
 public class ReportTypeRegionController {
 
     @Autowired

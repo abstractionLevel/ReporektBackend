@@ -1,22 +1,25 @@
 package com.example.ReportPlayer.filter;
 
 
+import com.example.ReportPlayer.exception.UserException;
+import com.example.ReportPlayer.models.user.User;
 import com.example.ReportPlayer.security.CustomUserDetails;
+import com.example.ReportPlayer.services.user.UserServiceImpl;
 import com.example.ReportPlayer.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.security.auth.login.AccountLockedException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -34,6 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         CustomUserDetails userDetails = null;
         if(authToken != null){
             userDetails = jwtTokenUtil.getUserDetails(authToken);
+
         }
         if (userDetails != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             // Ricostruisco l userdetails con i dati contenuti nel token

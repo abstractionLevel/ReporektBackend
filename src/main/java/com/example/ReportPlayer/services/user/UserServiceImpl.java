@@ -25,7 +25,6 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-
     @Override
     public User save(UserDto userDto) {
         final User user = UserBuilder.newBuilder().username(userDto.getUsername()).

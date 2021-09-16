@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 @PasswordMatches(password = "password",confirmPassword = "confirmPassword")
 public class UserDto {
     @NotNull
-    @Size(min=8, message = "{Size.userDto.username}")
+    @Size(min=3, message = "{Size.userDto.username}")
     private String username;
     @ValidEmail
     @NotNull
@@ -19,6 +19,7 @@ public class UserDto {
     @NotBlank
     private String password;
     private String confirmPassword;
+    private String captcha;
 
     public UserDto() {}
 
@@ -65,4 +66,11 @@ public class UserDto {
     }
 
 
+    public String getCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
+    }
 }

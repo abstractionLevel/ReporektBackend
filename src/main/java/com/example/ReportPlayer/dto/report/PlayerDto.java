@@ -9,10 +9,10 @@ public class PlayerDto {
 
     @NotBlank
     private String nickname;
-    private Server region;
+    private int reportCount;
 
-    public PlayerDto(String nickname, Server region) {
-        this.region = region;
+    public PlayerDto(String nickname, int reportCount) {
+        this.reportCount = reportCount;
         this.nickname = nickname;
     }
 
@@ -28,8 +28,10 @@ public class PlayerDto {
         this.nickname = nickname;
     }
 
-
-    public Server getRegion() {
-        return this.region;
+    public int getReportCount() {
+        return this.reportCount;
+    }
+    public void setReportCount(int reportCount) {
+        this.reportCount = reportCount;
     }
 }

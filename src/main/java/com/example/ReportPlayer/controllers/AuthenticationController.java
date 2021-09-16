@@ -1,28 +1,20 @@
 package com.example.ReportPlayer.controllers;
 
 import com.example.ReportPlayer.dto.request.AuthRequest;
-import com.example.ReportPlayer.dto.response.AuthResponse;
-import com.example.ReportPlayer.exception.UserException;
-import com.example.ReportPlayer.exception.UserNotFoundException;
 import com.example.ReportPlayer.security.CustomUserDetails;
 import com.example.ReportPlayer.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 @RestController
+@CrossOrigin(origins = { "https://reporekt.com","https://www.reporekt.com","http://localhost:3000","http://localhost:8080"}, maxAge = 3600)
 @RequestMapping("/api/v1/")
-@CrossOrigin
 public class AuthenticationController {
 
     @Autowired
@@ -41,18 +33,13 @@ public class AuthenticationController {
 
     @PostMapping(value = "authentication/")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthRequest authenticationRequest) throws Exception {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
-            );
-
-        }catch (UsernameNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
         final CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
+        if(!userDetails.isAccountNonBanned()) {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
         if(userDetails==null) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.notFound().build();
         }
         final String jwt = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(jwt);

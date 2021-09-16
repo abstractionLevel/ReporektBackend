@@ -8,6 +8,7 @@ public class EmailDto {
     @ValidEmail
     @NotNull
     private String email;
+    private String captcha;
 
     public EmailDto() {}
     public EmailDto(String email) {
@@ -23,4 +24,11 @@ public class EmailDto {
     }
 
 
+    public String getCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
+    }
 }

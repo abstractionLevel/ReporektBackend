@@ -1,5 +1,6 @@
 package com.example.ReportPlayer.services.user;
 
+import com.example.ReportPlayer.exception.UserNotFoundException;
 import com.example.ReportPlayer.factory.user.UserRepositoryFactory;
 import com.example.ReportPlayer.models.user.User;
 import com.example.ReportPlayer.repository.user.UserBaseRepository;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.security.auth.login.AccountLockedException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,17 +31,13 @@ public class UserDetailServiceImpl implements UserDetailsService{
     @Autowired
     private UserBaseRepository userRepository;
 
-
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException  {
+    public UserDetails loadUserByUsername(String username)  throws UsernameNotFoundException {
         final User user =  userRepository.findByUsername(username);
-        if(user == null) {
-            throw new DisabledException("");
+        if(user==null) {
+            throw new UsernameNotFoundException("");
         }
-        if(!user.isEnabled()) {
-            throw new DisabledException("");
-        }
-        return new CustomUserDetails(user.getUsername(),user.getPassword());
+        return new CustomUserDetails(user.getUsername(),user.getPassword(),user.isAccountNonLocked());
     }
 
 

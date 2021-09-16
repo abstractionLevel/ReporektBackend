@@ -58,6 +58,7 @@ public class JwtTokenUtil {
     }
 
     public CustomUserDetails getUserDetails(String token) {
+
         if(token == null){
             return null;
         }

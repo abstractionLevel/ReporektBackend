@@ -87,7 +87,6 @@ public class RegistrationControllerTest {
         //assert
         verify(userService,times(1)).save(any(UserDto.class));
         verify(verificationTokenService,times(1)).save(any(User.class));
-        verify(emailSenderService,times(1)).send(any(Email.class));
     }
 
     @Test
